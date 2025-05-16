@@ -2,12 +2,28 @@
 
 GameState::GameState(StateData* state_data) : State(state_data)
 {
+	this->initView();
 	this->initKeybinds();
 	this->initFonts();
 	this->initTextures();
 	this->initPauseMenu();
 	this->initPlayers();
 	this->initTileMap();
+}
+
+void GameState::initView()
+{
+	this->view.setSize(sf::Vector2f(
+		this->stateData->window->getSize().x,
+		this->stateData->window->getSize().y
+	)
+	);
+
+	this->view.setCenter(sf::Vector2f(
+			this->stateData->window->getSize().x / 2.f,
+			this->stateData->window->getSize().y / 2.f
+		)
+	);
 }
 
 void GameState::initKeybinds()
@@ -50,6 +66,7 @@ void GameState::initPlayers()
 void GameState::initTileMap()
 {
 	this->tileMap = new TileMap(this->stateData->gridSize, 10, 10, "C:\\Users\\kacpe\\Desktop\\Projekt_JIPP\\proj\\Projekt_JIPP\\items\\kafelki.png");
+	this->tileMap->loadFromFile("C:\\Users\\kacpe\\Desktop\\Projekt_JIPP\\proj\\Projekt_JIPP\\items\\Map.txt");
 }
 
 void GameState::update(const float& deltaTime)
@@ -109,7 +126,7 @@ void GameState::render(sf::RenderTarget* target)
 		target = this->window;
 	}
 	
-	//this->map.render(*target);
+	this->tileMap->render(*target);
 
 	this->player->render(this->window);
 	

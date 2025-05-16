@@ -7,9 +7,20 @@
 #include "PauseMenu.hpp"
 #include "TileMap.hpp"
 
+class PauseMenu;
+class Player;
+class TileMap;
+class sf::View;
+class sf::Font;
+class sf::RenderTexture;
+
 class EXPORT_API GameState : public State
 {
 private:
+	sf::View view;
+	sf::RenderTexture renderTexture;
+	sf::Sprite renderSprite;
+
 	sf::Font font;
 	PauseMenu* pauseMenu;
 
@@ -18,6 +29,7 @@ private:
 
 	TileMap* tileMap;
 
+	void initView();
 	void initKeybinds();
 	void initFonts();
 	void initTextures();
