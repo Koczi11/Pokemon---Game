@@ -41,7 +41,7 @@ public:
 	GameState(StateData* state_data);
 	virtual ~GameState();
 
-	
+	void updateView(const float& deltaTime);
 	void updatePausedInput(const float& deltaTime);
 	void updateInput(const float& deltaTime);
 	void updatePauseMenuButtons();

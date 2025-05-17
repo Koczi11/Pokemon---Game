@@ -14,14 +14,14 @@ GameState::GameState(StateData* state_data) : State(state_data)
 void GameState::initView()
 {
 	this->view.setSize(sf::Vector2f(
-		this->stateData->window->getSize().x,
-		this->stateData->window->getSize().y
-	)
+			this->stateData->window->getSize().x,
+			this->stateData->window->getSize().y
+		)
 	);
 
 	this->view.setCenter(sf::Vector2f(
-			this->stateData->window->getSize().x / 2.f,
-			this->stateData->window->getSize().y / 2.f
+			this->stateData->window->getSize().x,
+			this->stateData->window->getSize().y
 		)
 	);
 }
@@ -69,6 +69,11 @@ void GameState::initTileMap()
 	this->tileMap->loadFromFile("C:\\Users\\kacpe\\Desktop\\Projekt_JIPP\\proj\\Projekt_JIPP\\items\\Map.txt");
 }
 
+void GameState::updateView(const float& deltaTime)
+{
+	this->view.setCenter(this->player->getPosition());
+}
+
 void GameState::update(const float& deltaTime)
 {
 	this->updateMousePositions();
@@ -77,6 +82,8 @@ void GameState::update(const float& deltaTime)
 
 	if (!this->paused)
 	{
+		this->updateView(deltaTime);
+
 		this->updateInput(deltaTime);
 
 		this->player->update(deltaTime);
@@ -126,12 +133,14 @@ void GameState::render(sf::RenderTarget* target)
 		target = this->window;
 	}
 	
+	target->setView(this->view);
 	this->tileMap->render(*target);
 
-	this->player->render(this->window);
+	this->player->render(target);
 	
 	if (this->paused)
 	{
+		target->setView(this->window->getDefaultView());
 		this->pauseMenu->render(this->window);
 	}
 }
