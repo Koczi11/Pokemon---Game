@@ -101,5 +101,5 @@ void TextureSelector::render(sf::RenderTarget& target)
 			target.draw(this->selector);
 	}
 
-	this->hide_button->render(&target);
+	this->hide_button->render(target);
 }

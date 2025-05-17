@@ -258,7 +258,7 @@ void EditorState::updateButtons()
 
 }
 
-void EditorState::renderButtons(sf::RenderTarget* target)
+void EditorState::renderButtons(sf::RenderTarget& target)
 {
 	for (auto& it : this->buttons)
 	{
@@ -292,7 +292,7 @@ void EditorState::render(sf::RenderTarget* target)
 	this->tileMap->render(*target);
 
 	target->setView(this->window->getDefaultView());
-	this->renderButtons(target);
+	this->renderButtons(*target);
 
 	this->renderGUI(*target);
 

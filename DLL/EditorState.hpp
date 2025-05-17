@@ -58,7 +58,7 @@ public:
 	void updateGUI();
 	void updatePauseMenuButtons();
 	void update(const float& deltaTime);
-	void renderButtons(sf::RenderTarget* target = nullptr);
+	void renderButtons(sf::RenderTarget& target);
 	void renderGUI(sf::RenderTarget& target);
 	void render(sf::RenderTarget* target = nullptr);
 };

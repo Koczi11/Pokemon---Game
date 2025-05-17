@@ -33,6 +33,14 @@ public:
 	virtual ~HitboxComponent();
 
 	const sf::FloatRect& getNextPosition(const sf::Vector2f& velocity);
+
+	const sf::Vector2f& getPosition() const;
+	void setPosition(sf::Vector2f& position);
+	void setPosition(const float x, const float y);
+	bool Intersects(const sf::FloatRect& frect);
+
+	void update();
+	void render(sf::RenderTarget& target);
 };
 
 

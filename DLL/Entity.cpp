@@ -7,12 +7,14 @@ Entity::Entity()
 
 Entity::~Entity()
 {
+	delete this->hitboxComponent;
 	delete this->movement;
 	delete this->animationComponent;
 }
 
 void Entity::initVariables()
 {
+	this->hitboxComponent = nullptr;
 	this->movement = nullptr;
 	this->animationComponent = nullptr;
 }
@@ -20,6 +22,11 @@ void Entity::initVariables()
 void Entity::setTexture(sf::Texture& texture)
 {
 	this->sprite.setTexture(texture);
+}
+
+void Entity::createHitboxComponent(sf::Sprite& sprite, float offset_x, float offset_y, float width, float height)
+{
+	this->hitboxComponent = new HitboxComponent(sprite, offset_x, offset_y, width, height);
 }
 
 void Entity::createMovement(const float maxVelocity, const float acceleration, const float deceleration)
@@ -34,6 +41,9 @@ void Entity::createAnimationComponent(sf::Texture& texture_sheet)
 
 const sf::Vector2f& Entity::getPosition() const
 {
+	if (this->hitboxComponent)
+		return this->hitboxComponent->getPosition();
+
 	return this->sprite.getPosition();
 }
 
@@ -60,7 +70,10 @@ const sf::FloatRect& Entity::getNextPositionBounds(const float& deltaTime) const
 
 void Entity::setPosition(const float x, const float y)
 {
-	this->sprite.setPosition(x, y);
+	if (this->hitboxComponent)
+		this->hitboxComponent->setPosition(x, y);
+	else
+		this->sprite.setPosition(x, y);
 }
 
 void Entity::move(const float dir_x, const float dir_y, const float& deltaTime)
@@ -104,7 +117,10 @@ void Entity::update(const float& deltaTime)
 	}
 }
 
-void Entity::render(sf::RenderTarget* target)
+void Entity::render(sf::RenderTarget& target)
 {
-	target->draw(this->sprite);
+	target.draw(this->sprite);
+
+	if (this->hitboxComponent)
+		this->hitboxComponent->render(target);
 }

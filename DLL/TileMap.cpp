@@ -149,7 +149,7 @@ void TileMap::updateCollision(Entity* entity, const float& deltaTime)
 		{
 			sf::FloatRect playerBounds = entity->getGlobalBounds();
 			sf::FloatRect wallBounds = this->map[x][y][this->layer]->getGlobalBounds();
-			sf::FloatRect nextPositionBounds = entity->getNextPositionBounds(deltaTime);
+			sf::FloatRect nextPositionBounds = entity->getGlobalBounds();
 
 			if (this->map[x][y][this->layer]->getCollision() &&
 				this->map[x][y][this->layer]->intersects(nextPositionBounds))

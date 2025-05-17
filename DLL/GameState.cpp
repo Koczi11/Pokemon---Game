@@ -144,7 +144,7 @@ void GameState::render(sf::RenderTarget* target)
 	target->setView(this->view);
 	this->tileMap->render(*target);
 
-	this->player->render(target);
+	this->player->render(*target);
 	
 	if (this->paused)
 	{

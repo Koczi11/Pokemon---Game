@@ -45,7 +45,7 @@ public:
 	const bool isPressed() const;
 
 	void update(const sf::Vector2i& mousePosWindow);
-	void render(sf::RenderTarget* target);
+	void render(sf::RenderTarget& target);
 };
 
 

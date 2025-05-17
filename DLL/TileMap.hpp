@@ -8,6 +8,7 @@
 
 class Tile;
 class Entity;
+class HitboxComponent;
 
 class EXPORT_API TileMap
 {

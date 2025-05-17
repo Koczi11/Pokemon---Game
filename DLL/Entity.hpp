@@ -24,6 +24,7 @@ public:
 	virtual ~Entity();
 	
 	void setTexture(sf::Texture& texture);
+	void createHitboxComponent(sf::Sprite& sprite, float offset_x, float offset_y, float width, float height);
 	void createMovement(const float maxVelocity, const float acceleration, const float deceleration);
 	void createAnimationComponent(sf::Texture& texture_sheet);
 
@@ -40,7 +41,7 @@ public:
 	virtual void stopVelocityY();
 
 	virtual void update(const float& deltaTime);
-	virtual void render(sf::RenderTarget* target);
+	virtual void render(sf::RenderTarget& target);
 };
 
 #endif
