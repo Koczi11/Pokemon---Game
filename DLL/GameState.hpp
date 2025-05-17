@@ -12,14 +12,11 @@ class Player;
 class TileMap;
 class sf::View;
 class sf::Font;
-class sf::RenderTexture;
 
 class EXPORT_API GameState : public State
 {
 private:
 	sf::View view;
-	sf::RenderTexture renderTexture;
-	sf::Sprite renderSprite;
 
 	sf::Font font;
 	PauseMenu* pauseMenu;
@@ -45,6 +42,7 @@ public:
 	void updatePausedInput(const float& deltaTime);
 	void updateInput(const float& deltaTime);
 	void updatePauseMenuButtons();
+	void updateTileMap(const float& deltaTime);
 	void update(const float& deltaTime);
 	void render(sf::RenderTarget* target = nullptr);
 };

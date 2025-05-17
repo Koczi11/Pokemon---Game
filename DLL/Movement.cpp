@@ -67,6 +67,22 @@ const bool Movement::getState(const short unsigned state) const
 	return false;
 }
 
+void Movement::stopVelocity()
+{
+	this->velocity.x = 0.f;
+	this->velocity.y = 0.f;
+}
+
+void Movement::stopVelocityX()
+{
+	this->velocity.x = 0.f;
+}
+
+void Movement::stopVelocityY()
+{
+	this->velocity.y = 0.f;
+}
+
 void Movement::move(const float dir_x, const float dir_y, const float& deltaTime)
 {
 	this->velocity.x += this->acceleration * dir_x;

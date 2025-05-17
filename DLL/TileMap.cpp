@@ -6,8 +6,16 @@ TileMap::TileMap(float gridSize, unsigned width, unsigned height, std::string te
 	this->gridSizeU = static_cast<unsigned>(this->gridSizeF);
 	this->maxSize.x = width;
 	this->maxSize.y = height;
+	this->maxSizeWorldF.x = static_cast<float>(width) * gridSize;
+	this->maxSizeWorldF.y = static_cast<float>(height) * gridSize;
 	this->layers = 1;
 	this->textureFile = texture_file;
+
+	this->fromX = 0;
+	this->toX = 0;
+	this->fromY = 0;
+	this->toX = 0;
+	this->layer = 0;
 
 	this->map.resize(this->maxSize.x, std::vector< std::vector <Tile*> >());
 	for (size_t x = 0; x < this->maxSize.x; x++)
@@ -25,6 +33,9 @@ TileMap::TileMap(float gridSize, unsigned width, unsigned height, std::string te
 
 	if(!this->tileTextureSheet.loadFromFile(texture_file))
 		std::cout << "ERROR::TILEMAP::FAILED TO LOAD TILE" << "\n";
+
+	this->collisionBox.setSize(sf::Vector2f(gridSize, gridSize));
+	this->collisionBox.setFillColor(sf::Color(255, 0, 0, 50));
 }
 
 TileMap::~TileMap()
@@ -62,7 +73,7 @@ void TileMap::update()
 
 }
 
-void TileMap::render(sf::RenderTarget& target)
+void TileMap::render(sf::RenderTarget& target, Entity* entity)
 {
 	for (auto& x : this->map)
 	{
@@ -71,7 +82,117 @@ void TileMap::render(sf::RenderTarget& target)
 			for (auto *z : y)
 			{
 				if (z != nullptr)
+				{
 					z->render(target);
+					if (z->getCollision())
+					{
+						this->collisionBox.setPosition(z->getPosition());
+						target.draw(this->collisionBox);
+					}
+				}
+			}
+		}
+	}
+}
+
+void TileMap::updateCollision(Entity* entity, const float& deltaTime)
+{
+	if (entity->getPosition().x < 0.f)
+	{
+		entity->setPosition(0.f, entity->getPosition().y);
+		entity->stopVelocityX();
+	}
+	else if (entity->getPosition().x > this->maxSizeWorldF.x)
+	{
+		entity->setPosition(this->maxSizeWorldF.x, entity->getPosition().y);
+		entity->stopVelocityX();
+	}
+
+	if (entity->getPosition().y < 0.f)
+	{
+		entity->setPosition(entity->getPosition().x, 0.f);
+		entity->stopVelocityY();
+	}
+	else if (entity->getPosition().y > this->maxSizeWorldF.y)
+	{
+		entity->setPosition(entity->getPosition().x, this->maxSizeWorldF.y);
+		entity->stopVelocityY();
+	}
+
+	this->fromX = entity->getGridPosition(this->gridSizeU).x;
+	if (this->fromX < 0)
+		this->fromX = 0;
+	else if (this->fromX >= this->maxSize.x)
+		this->fromX = this->maxSize.x - 1;
+
+	this->toX = entity->getGridPosition(this->gridSizeU).x + 3;
+	if (this->toX < 0)
+		this->toX = 0;
+	else if (this->toX >= this->maxSize.x)
+		this->toX = this->maxSize.x - 1;
+
+	this->fromY = entity->getGridPosition(this->gridSizeU).y;
+	if (this->fromY < 0)
+		this->fromY = 0;
+	else if (this->fromY >= this->maxSize.y)
+		this->fromY = this->maxSize.y - 1;
+
+	this->toY = entity->getGridPosition(this->gridSizeU).y + 3;
+	if (this->toY < 0)
+		this->toY = 0;
+	else if (this->toY >= this->maxSize.y)
+		this->toY = this->maxSize.y - 1;
+
+	for (size_t x = this->fromX; x < this->toX; x++)
+	{
+		for (size_t y = this->fromY; y < this->toY; y++)
+		{
+			sf::FloatRect playerBounds = entity->getGlobalBounds();
+			sf::FloatRect wallBounds = this->map[x][y][this->layer]->getGlobalBounds();
+			sf::FloatRect nextPositionBounds = entity->getNextPositionBounds(deltaTime);
+
+			if (this->map[x][y][this->layer]->getCollision() &&
+				this->map[x][y][this->layer]->intersects(nextPositionBounds))
+			{
+				if (playerBounds.top < wallBounds.top
+					&& playerBounds.top + playerBounds.height < wallBounds.top + wallBounds.height
+					&& playerBounds.left < wallBounds.left + wallBounds.width
+					&& playerBounds.left + playerBounds.width > wallBounds.left
+					)
+				{
+					entity->stopVelocityY();
+					entity->setPosition(playerBounds.left, wallBounds.top - playerBounds.height);
+				}
+				else if (playerBounds.top > wallBounds.top
+					&& playerBounds.top + playerBounds.height > wallBounds.top + wallBounds.height
+					&& playerBounds.left < wallBounds.left + wallBounds.width
+					&& playerBounds.left + playerBounds.width > wallBounds.left
+					)
+				{
+					entity->stopVelocityY();
+					entity->setPosition(playerBounds.left, wallBounds.top + playerBounds.height);
+				}
+
+				if (playerBounds.left < wallBounds.left
+					&& playerBounds.left + playerBounds.width < wallBounds.left + wallBounds.width
+					&& playerBounds.top < wallBounds.top + wallBounds.height
+					&& playerBounds.top + playerBounds.height > wallBounds.top
+					)
+				{
+					entity->stopVelocityX();
+					entity->setPosition(wallBounds.left - playerBounds.width, playerBounds.top);
+				}
+				else if (playerBounds.left > wallBounds.left
+					&& playerBounds.left + playerBounds.width > wallBounds.left + wallBounds.width
+					&& playerBounds.top < wallBounds.top + wallBounds.height
+					&& playerBounds.top + playerBounds.height > wallBounds.top
+					)
+				{
+					entity->stopVelocityX();
+					entity->setPosition(wallBounds.left + wallBounds.width, playerBounds.top);
+				}
+
+				//std::cout << "COLLISION!" << "\n";
 			}
 		}
 	}

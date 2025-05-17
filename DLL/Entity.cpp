@@ -37,6 +37,27 @@ const sf::Vector2f& Entity::getPosition() const
 	return this->sprite.getPosition();
 }
 
+const sf::Vector2u Entity::getGridPosition(const unsigned gridSizeU) const
+{
+	return sf::Vector2u(
+		static_cast<unsigned>(this->sprite.getPosition().x) / gridSizeU,
+		static_cast<unsigned>(this->sprite.getPosition().y) / gridSizeU
+	);
+}
+
+const sf::FloatRect Entity::getGlobalBounds() const
+{
+	return this->sprite.getGlobalBounds();
+}
+
+const sf::FloatRect& Entity::getNextPositionBounds(const float& deltaTime) const
+{
+	if (this->movement && this->hitboxComponent)
+	{
+		return this->hitboxComponent->getNextPosition(this->movement->getVelocity());
+	}
+}
+
 void Entity::setPosition(const float x, const float y)
 {
 	this->sprite.setPosition(x, y);
@@ -49,6 +70,31 @@ void Entity::move(const float dir_x, const float dir_y, const float& deltaTime)
 		this->movement->move(dir_x, dir_y, deltaTime);
 	}
 }
+
+void Entity::stopVelocity()
+{
+	if (this->movement)
+	{
+		this->movement->stopVelocity();
+	}
+}
+
+void Entity::stopVelocityX()
+{
+	if (this->movement)
+	{
+		this->movement->stopVelocityX();
+	}
+}
+
+void Entity::stopVelocityY()
+{
+	if (this->movement)
+	{
+		this->movement->stopVelocityY();
+	}
+}
+
 
 void Entity::update(const float& deltaTime)
 {

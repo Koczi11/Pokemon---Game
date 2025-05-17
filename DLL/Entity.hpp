@@ -5,6 +5,7 @@
 
 #include "Movement.hpp"
 #include "AnimationComponent.hpp"
+#include "HitboxComponent.hpp"
 
 class EXPORT_API Entity
 {
@@ -15,6 +16,7 @@ protected:
 	sf::Sprite sprite;
 
 	Movement* movement;
+	HitboxComponent* hitboxComponent;
 	AnimationComponent* animationComponent;
 
 public:
@@ -26,9 +28,16 @@ public:
 	void createAnimationComponent(sf::Texture& texture_sheet);
 
 	virtual const sf::Vector2f& getPosition() const;
+	virtual const sf::Vector2u getGridPosition(const unsigned gridSize) const;
+	virtual const sf::FloatRect getGlobalBounds() const;
+	virtual const sf::FloatRect& getNextPositionBounds(const float& deltaTime) const;
 
 	virtual void setPosition(const float x, const float y);
+
 	virtual void move(const float x, const float y, const float& deltaTime);
+	virtual void stopVelocity();
+	virtual void stopVelocityX();
+	virtual void stopVelocityY();
 
 	virtual void update(const float& deltaTime);
 	virtual void render(sf::RenderTarget* target);

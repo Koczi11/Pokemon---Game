@@ -147,6 +147,7 @@ copy /Y "$(SolutionDir)x64\Debug\*lib" "C:\Users\kacpe\Desktop\Projekt_JIPP\SFML
     <ClInclude Include="Entity.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameState.hpp" />
+    <ClInclude Include="HitboxComponent.hpp" />
     <ClInclude Include="Klasa.h" />
     <ClInclude Include="MainMenuState.hpp" />
     <ClInclude Include="Movement.hpp" />
@@ -168,6 +169,7 @@ copy /Y "$(SolutionDir)x64\Debug\*lib" "C:\Users\kacpe\Desktop\Projekt_JIPP\SFML
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="HitboxComponent.cpp" />
     <ClCompile Include="Klasa.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>

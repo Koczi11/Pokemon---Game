@@ -109,7 +109,7 @@ void Game::update()
 {
 	this->updateEvents();
 
-	if (!this->states.empty())
+	if (!this->states.empty() && this->window->hasFocus())
 	{
 		this->states.top()->update(this->deltaTime);
 

@@ -65,13 +65,13 @@ void GameState::initPlayers()
 
 void GameState::initTileMap()
 {
-	this->tileMap = new TileMap(this->stateData->gridSize, 10, 10, "C:\\Users\\kacpe\\Desktop\\Projekt_JIPP\\proj\\Projekt_JIPP\\items\\kafelki.png");
+	this->tileMap = new TileMap(this->stateData->gridSize, 100, 100, "C:\\Users\\kacpe\\Desktop\\Projekt_JIPP\\proj\\Projekt_JIPP\\items\\kafelki.png");
 	this->tileMap->loadFromFile("C:\\Users\\kacpe\\Desktop\\Projekt_JIPP\\proj\\Projekt_JIPP\\items\\Map.txt");
 }
 
 void GameState::updateView(const float& deltaTime)
 {
-	this->view.setCenter(this->player->getPosition());
+	this->view.setCenter(std::floor(this->player->getPosition().x), std::floor(this->player->getPosition().y));
 }
 
 void GameState::update(const float& deltaTime)
@@ -87,6 +87,8 @@ void GameState::update(const float& deltaTime)
 		this->updateInput(deltaTime);
 
 		this->player->update(deltaTime);
+
+		this->updateTileMap(deltaTime);
 	}
 	else
 	{
@@ -116,6 +118,12 @@ void GameState::updateInput(const float& deltaTime)
 		this->player->move(0.f, -1.f, deltaTime);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_DOWN"))))
 		this->player->move(0.f, 1.f, deltaTime);
+}
+
+void GameState::updateTileMap(const float& deltaTime)
+{
+	this->tileMap->update();
+	this->tileMap->updateCollision(this->player, deltaTime);
 }
 
 void GameState::updatePauseMenuButtons()

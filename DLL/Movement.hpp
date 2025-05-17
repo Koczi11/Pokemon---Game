@@ -2,7 +2,7 @@
 
 #ifndef MOVEMENT_H
 #define MOVEMENT_H
-
+  
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
@@ -24,7 +24,6 @@ class EXPORT_API Movement
 {
 private:
 	sf::Sprite& sprite;
-
 	float maxVelocity;
 	float acceleration;
 	float deceleration;
@@ -38,6 +37,9 @@ public:
 	const sf::Vector2f& getVelocity() const;	
 
 	const bool getState(const short unsigned state) const;
+	void stopVelocity();
+	void stopVelocityX();
+	void stopVelocityY();
 
 	void move(const float x, const float y, const float& deltaTime);
 	void update(const float& deltaTime);
