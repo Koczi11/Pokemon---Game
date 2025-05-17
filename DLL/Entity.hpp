@@ -40,8 +40,8 @@ public:
 	virtual void stopVelocityX();
 	virtual void stopVelocityY();
 
-	virtual void update(const float& deltaTime);
-	virtual void render(sf::RenderTarget& target);
+	virtual void update(const float& deltaTime) = 0;
+	virtual void render(sf::RenderTarget& target) = 0;
 };
 
 #endif

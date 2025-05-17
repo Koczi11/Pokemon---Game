@@ -57,15 +57,20 @@ const sf::Vector2u Entity::getGridPosition(const unsigned gridSizeU) const
 
 const sf::FloatRect Entity::getGlobalBounds() const
 {
+	if (this->hitboxComponent)
+		return this->hitboxComponent->getGlobalBounds();
+
 	return this->sprite.getGlobalBounds();
 }
 
 const sf::FloatRect& Entity::getNextPositionBounds(const float& deltaTime) const
 {
-	if (this->movement && this->hitboxComponent)
+	if (this->hitboxComponent && this->movement)
 	{
-		return this->hitboxComponent->getNextPosition(this->movement->getVelocity());
+		return this->hitboxComponent->getNextPosition(this->movement->getVelocity() * deltaTime);
 	}
+
+	return sf::FloatRect();
 }
 
 void Entity::setPosition(const float x, const float y)
@@ -119,8 +124,5 @@ void Entity::update(const float& deltaTime)
 
 void Entity::render(sf::RenderTarget& target)
 {
-	target.draw(this->sprite);
 
-	if (this->hitboxComponent)
-		this->hitboxComponent->render(target);
 }

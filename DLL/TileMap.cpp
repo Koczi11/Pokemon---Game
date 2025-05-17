@@ -102,9 +102,9 @@ void TileMap::updateCollision(Entity* entity, const float& deltaTime)
 		entity->setPosition(0.f, entity->getPosition().y);
 		entity->stopVelocityX();
 	}
-	else if (entity->getPosition().x > this->maxSizeWorldF.x)
+	else if (entity->getPosition().x + entity->getGlobalBounds().width > this->maxSizeWorldF.x)
 	{
-		entity->setPosition(this->maxSizeWorldF.x, entity->getPosition().y);
+		entity->setPosition(this->maxSizeWorldF.x - entity->getGlobalBounds().width, entity->getPosition().y);
 		entity->stopVelocityX();
 	}
 
@@ -113,9 +113,9 @@ void TileMap::updateCollision(Entity* entity, const float& deltaTime)
 		entity->setPosition(entity->getPosition().x, 0.f);
 		entity->stopVelocityY();
 	}
-	else if (entity->getPosition().y > this->maxSizeWorldF.y)
+	else if (entity->getPosition().y + entity->getGlobalBounds().height > this->maxSizeWorldF.y)
 	{
-		entity->setPosition(entity->getPosition().x, this->maxSizeWorldF.y);
+		entity->setPosition(entity->getPosition().x, this->maxSizeWorldF.y - entity->getGlobalBounds().height);
 		entity->stopVelocityY();
 	}
 
@@ -149,7 +149,7 @@ void TileMap::updateCollision(Entity* entity, const float& deltaTime)
 		{
 			sf::FloatRect playerBounds = entity->getGlobalBounds();
 			sf::FloatRect wallBounds = this->map[x][y][this->layer]->getGlobalBounds();
-			sf::FloatRect nextPositionBounds = entity->getGlobalBounds();
+			sf::FloatRect nextPositionBounds = entity->getNextPositionBounds(deltaTime);
 
 			if (this->map[x][y][this->layer]->getCollision() &&
 				this->map[x][y][this->layer]->intersects(nextPositionBounds))
@@ -189,7 +189,7 @@ void TileMap::updateCollision(Entity* entity, const float& deltaTime)
 					)
 				{
 					entity->stopVelocityX();
-					entity->setPosition(wallBounds.left + wallBounds.width, playerBounds.top);
+					entity->setPosition(wallBounds.left + playerBounds.width, playerBounds.top);
 				}
 
 				//std::cout << "COLLISION!" << "\n";

@@ -21,6 +21,8 @@ public:
 	virtual ~Player();
 
 	void update(const float& deltaTime);
+
+	void render(sf::RenderTarget& target);
 };
 
 

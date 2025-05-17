@@ -33,7 +33,7 @@ public:
 	virtual ~HitboxComponent();
 
 	const sf::FloatRect& getNextPosition(const sf::Vector2f& velocity);
-
+	const sf::FloatRect getGlobalBounds() const;
 	const sf::Vector2f& getPosition() const;
 	void setPosition(sf::Vector2f& position);
 	void setPosition(const float x, const float y);
