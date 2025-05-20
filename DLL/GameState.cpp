@@ -60,12 +60,12 @@ void GameState::initPauseMenu()
 
 void GameState::initPlayers()
 {
-	this->player = new Player(100, 100, this->textures["PLAYER_SHEET"]);
+	this->player = new Player(200, 200, this->textures["PLAYER_SHEET"]);
 }
 
 void GameState::initTileMap()
 {
-	this->tileMap = new TileMap(this->stateData->gridSize, 100, 100, "C:\\Users\\kacpe\\Desktop\\Projekt_JIPP\\proj\\Projekt_JIPP\\items\\kafelki.png");
+	this->tileMap = new TileMap(this->stateData->gridSize, 50, 50, "C:\\Users\\kacpe\\Desktop\\Projekt_JIPP\\proj\\Projekt_JIPP\\items\\kafelki.png");
 	this->tileMap->loadFromFile("C:\\Users\\kacpe\\Desktop\\Projekt_JIPP\\proj\\Projekt_JIPP\\items\\Map.txt");
 }
 

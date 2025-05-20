@@ -75,7 +75,7 @@ void Movement::stopVelocity()
 
 void Movement::stopVelocityX()
 {
-	this->velocity.x = 0.f;
+		this->velocity.x = 0.f;
 }
 
 void Movement::stopVelocityY()

@@ -34,7 +34,7 @@ public:
 	virtual const sf::FloatRect& getNextPositionBounds(const float& deltaTime) const;
 
 	virtual void setPosition(const float x, const float y);
-
+	
 	virtual void move(const float x, const float y, const float& deltaTime);
 	virtual void stopVelocity();
 	virtual void stopVelocityX();

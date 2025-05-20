@@ -14,7 +14,7 @@ TileMap::TileMap(float gridSize, unsigned width, unsigned height, std::string te
 	this->fromX = 0;
 	this->toX = 0;
 	this->fromY = 0;
-	this->toX = 0;
+	this->toY = 0;
 	this->layer = 0;
 
 	this->map.resize(this->maxSize.x, std::vector< std::vector <Tile*> >());
@@ -36,6 +36,8 @@ TileMap::TileMap(float gridSize, unsigned width, unsigned height, std::string te
 
 	this->collisionBox.setSize(sf::Vector2f(gridSize, gridSize));
 	this->collisionBox.setFillColor(sf::Color(255, 0, 0, 50));
+	this->collisionBox.setOutlineColor(sf::Color::Red);
+	this->collisionBox.setOutlineThickness(1.f);
 }
 
 TileMap::~TileMap()
@@ -122,26 +124,26 @@ void TileMap::updateCollision(Entity* entity, const float& deltaTime)
 	this->fromX = entity->getGridPosition(this->gridSizeU).x;
 	if (this->fromX < 0)
 		this->fromX = 0;
-	else if (this->fromX >= this->maxSize.x)
-		this->fromX = this->maxSize.x - 1;
+	else if (this->fromX > this->maxSize.x)
+		this->fromX = this->maxSize.x;
 
 	this->toX = entity->getGridPosition(this->gridSizeU).x + 3;
 	if (this->toX < 0)
 		this->toX = 0;
-	else if (this->toX >= this->maxSize.x)
-		this->toX = this->maxSize.x - 1;
+	else if (this->toX > this->maxSize.x)
+		this->toX = this->maxSize.x;
 
 	this->fromY = entity->getGridPosition(this->gridSizeU).y;
 	if (this->fromY < 0)
 		this->fromY = 0;
-	else if (this->fromY >= this->maxSize.y)
-		this->fromY = this->maxSize.y - 1;
+	else if (this->fromY > this->maxSize.y)
+		this->fromY = this->maxSize.y;
 
 	this->toY = entity->getGridPosition(this->gridSizeU).y + 3;
 	if (this->toY < 0)
 		this->toY = 0;
-	else if (this->toY >= this->maxSize.y)
-		this->toY = this->maxSize.y - 1;
+	else if (this->toY > this->maxSize.y)
+		this->toY = this->maxSize.y;
 
 	for (size_t x = this->fromX; x < this->toX; x++)
 	{
@@ -170,7 +172,7 @@ void TileMap::updateCollision(Entity* entity, const float& deltaTime)
 					)
 				{
 					entity->stopVelocityY();
-					entity->setPosition(playerBounds.left, wallBounds.top + playerBounds.height);
+					entity->setPosition(playerBounds.left, wallBounds.top + wallBounds.height);
 				}
 
 				if (playerBounds.left < wallBounds.left
@@ -189,7 +191,7 @@ void TileMap::updateCollision(Entity* entity, const float& deltaTime)
 					)
 				{
 					entity->stopVelocityX();
-					entity->setPosition(wallBounds.left + playerBounds.width, playerBounds.top);
+					entity->setPosition(wallBounds.left + wallBounds.width, playerBounds.top);
 				}
 
 				//std::cout << "COLLISION!" << "\n";
