@@ -1,15 +1,14 @@
 #pragma once
 
-#ifndef MAINMENUSTATE_H
-#define MAINMENUSTATE_H
+#ifndef STARTSTATE_H
+#define STARTSTATE_H
 
 #include "GameState.hpp"
 #include "EditorState.hpp"
 #include "SettingsState.hpp"
-#include "StartState.hpp"
 #include "Button.hpp"
 
-class EXPORT_API MainMenuState : public State
+class EXPORT_API StartState : public State
 {
 private:
 	sf::Texture backgroundTexture;
@@ -25,8 +24,8 @@ private:
 	void initButtons();
 
 public:
-	MainMenuState(StateData* state_data);
-	virtual ~MainMenuState();
+	StartState(StateData* state_data);
+	virtual ~StartState();
 
 	void updateInput(const float& deltaTime);
 	void updateButtons();

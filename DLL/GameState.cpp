@@ -60,7 +60,7 @@ void GameState::initPauseMenu()
 
 void GameState::initPlayers()
 {
-	this->player = new Player(200, 200, this->textures["PLAYER_SHEET"]);
+	this->player = new Player(190, 190, this->textures["PLAYER_SHEET"]);
 }
 
 void GameState::initTileMap()
@@ -130,7 +130,7 @@ void GameState::updatePauseMenuButtons()
 {
 	if (this->pauseMenu->isButtonPressed("QUIT") && this->getKeyTime())
 	{
-		this->endState();
+		this->states->push(new MainMenuState(this->stateData));
 	}
 }
 

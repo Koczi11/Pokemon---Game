@@ -13,11 +13,11 @@ void Player::initComponents()
 Player::Player(float x, float y, sf::Texture& texture_sheet)
 {
 	this->initVariables();
-
+	this->initComponents();
 	this->setPosition(x, y);
 
 	this->createHitboxComponent(this->sprite, 11.f, 3.f, 74.f, 87.f);
-	this->createMovement(300.f, 10.f, 4.f);
+	this->createMovement(300.f, 15.f, 10.f);
 	this->createAnimationComponent(texture_sheet);
 
 	this->animationComponent->addAnimation("IDLE_LEFT", 10.f, 0, 0, 0, 0, 97, 94);

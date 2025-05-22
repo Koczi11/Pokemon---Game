@@ -90,7 +90,7 @@ void MainMenuState::updateButtons()
 
 	if (this->buttons["GAME_STATE"]->isPressed())
 	{
-		this->states->push(new GameState(this->stateData));
+		this->states->push(new StartState(this->stateData));
 	}
 
 	if (this->buttons["SETTINGS_STATE"]->isPressed())
@@ -105,7 +105,7 @@ void MainMenuState::updateButtons()
 
 	if (this->buttons["EXIT"]->isPressed())
 	{
-		this->endState();
+		this->window->close();
 	}
 }
 

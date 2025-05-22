@@ -5,6 +5,8 @@
 
 #include "State.hpp"
 #include "PauseMenu.hpp"
+#include "SettingsState.hpp"
+#include "MainMenuState.hpp"
 #include "TileMap.hpp"
 
 class PauseMenu;

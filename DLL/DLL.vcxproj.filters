@@ -78,6 +78,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HitboxComponent.hpp" />
+    <ClInclude Include="Pokemon.hpp">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="StartState.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Klasa.cpp">
@@ -130,6 +134,12 @@
     </ClCompile>
     <ClCompile Include="HitboxComponent.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Pokemon.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="StartState.cpp">
+      <Filter>States</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
