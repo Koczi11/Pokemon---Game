@@ -1,31 +1,13 @@
 #include "Pokemon.hpp"
 
-void Pokemon::initVariables()
-{
 
+Pokemon::Pokemon(const std::string& name, const std::string& texturePath)
+{
+	
 }
 
-void Pokemon::initComponents()
-{
-
-}
-
-Pokemon::Pokemon(float x, float y, sf::Texture& texture_sheet)
-{
-	this->initVariables();
-	this->initComponents();
-}
 Pokemon::~Pokemon()
 {
 
 }
 
-void Pokemon::update(const float& deltaTime)
-{
-
-}
-
-void Pokemon::render(sf::RenderTarget& target)
-{
-
-}

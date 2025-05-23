@@ -89,6 +89,9 @@
     <ClInclude Include="PokemonSelector.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FightState.hpp">
+      <Filter>States</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Klasa.cpp">
@@ -150,6 +153,9 @@
     </ClCompile>
     <ClCompile Include="PokemonSelector.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FightState.cpp">
+      <Filter>States</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

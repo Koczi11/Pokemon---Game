@@ -9,20 +9,10 @@
 class EXPORT_API Pokemon : public Entity
 {
 private:
-	sf::Sprite m_sprite;
-
-	void initVariables();
-	void initComponents();
-
-protected:
 
 public:
-	Pokemon(float x, float y, sf::Texture& texture_sheet);
+	Pokemon(const std::string& name, const std::string& texturePath);
 	virtual ~Pokemon();
-
-	void update(const float& deltaTime);
-
-	void render(sf::RenderTarget& target);
 };
 
 

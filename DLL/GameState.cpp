@@ -11,6 +11,8 @@ GameState::GameState(StateData* state_data, const std::string& pokemon_name) : S
 	this->initTileMap();
 	this->initPokemonSelector();
 	this->initPokemonSprite();
+
+	std::srand(static_cast<unsigned>(std::time(nullptr)));
 }
 
 void GameState::initView()
@@ -99,10 +101,40 @@ void GameState::initPokemonSprite()
 	}
 
 	this->pokemonSprite.setTexture(this->pokemonTexture);
-
-	
 	this->pokemonSprite.setPosition(5, 0);
 	this->pokemonSprite.setScale(1.5f, 1.5f);
+}
+
+void GameState::updateFight(const float& deltaTime)
+{
+	const std::vector<sf::FloatRect> combatAreas =
+	{
+		sf::FloatRect(1850.f, 300.f, 200.f, 450.f),
+		sf::FloatRect(2150.f, 300.f, 250.f, 200.f),
+		sf::FloatRect(1850.f, 900.f, 550.f, 300.f),
+		sf::FloatRect(100.f, 1900.f, 750.f, 550.f),
+		sf::FloatRect(1050.f, 1900.f, 550.f, 550.f)
+	};
+
+	for (const auto& area : combatAreas)
+	{
+		if (area.contains(this->player->getPosition()))
+		{
+			isInCombatArea = true;
+			break;
+		}
+	}
+
+	if (isInCombatArea && fightCooldown.getElapsedTime().asSeconds() >= fightCooldownTime)
+	{
+		if ((std::rand() % 100) < 1)
+		{
+			this->states->push(new FightState(this->stateData));
+			fightCooldown.restart();
+
+			std::cout << "Entering FightState!" << std::endl;
+		}
+	}
 }
 
 void GameState::updateView(const float& deltaTime)
@@ -125,6 +157,8 @@ void GameState::update(const float& deltaTime)
 		this->player->update(deltaTime);
 
 		this->updateTileMap(deltaTime);
+
+		this->updateFight(deltaTime);
 	}
 	else
 	{
