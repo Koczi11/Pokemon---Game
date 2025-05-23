@@ -20,6 +20,7 @@ TextureSelector::TextureSelector(float x, float y, float width, float height, fl
 	{
 		this->sheet.setTextureRect(sf::IntRect(0, 0, this->bounds.getGlobalBounds().width, this->sheet.getGlobalBounds().height));
 	}
+
 	if (this->sheet.getGlobalBounds().height > this->bounds.getGlobalBounds().height)
 	{
 		this->sheet.setTextureRect(sf::IntRect(0, 0, this->sheet.getGlobalBounds().width, this->bounds.getGlobalBounds().height));

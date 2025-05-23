@@ -8,6 +8,7 @@
 #include "SettingsState.hpp"
 #include "MainMenuState.hpp"
 #include "TileMap.hpp"
+#include "PokemonSelector.hpp"
 
 class PauseMenu;
 class Player;
@@ -27,6 +28,11 @@ private:
 	sf::Texture texture;
 
 	TileMap* tileMap;
+	PokemonSelector* pokemonSelector;
+
+	std::string selectedPokemon;
+	sf::Sprite pokemonSprite;
+	sf::Texture pokemonTexture;
 
 	void initView();
 	void initKeybinds();
@@ -35,9 +41,11 @@ private:
 	void initPauseMenu();
 	void initPlayers();
 	void initTileMap();
+	void initPokemonSelector();
+	void initPokemonSprite();
 
 public:
-	GameState(StateData* state_data);
+	GameState(StateData* state_data, const std::string& pokemon_name);
 	virtual ~GameState();
 
 	void updateView(const float& deltaTime);

@@ -85,17 +85,17 @@ void StartState::updateButtons()
 
 	if (this->buttons["BULBASAUR"]->isPressed())
 	{
-		this->states->push(new GameState(this->stateData));
+		this->states->push(new GameState(this->stateData, "bulbasaur"));
 	}
 
 	if (this->buttons["CHARMANDER"]->isPressed())
 	{
-		this->states->push(new GameState(this->stateData));
+		this->states->push(new GameState(this->stateData, "charmander"));
 	}
 
 	if (this->buttons["SQUIRTLE"]->isPressed())
 	{
-		this->states->push(new GameState(this->stateData));
+		this->states->push(new GameState(this->stateData, "squirtle"));
 	}
 }
 
@@ -131,5 +131,9 @@ void StartState::render(sf::RenderTarget* target)
 
 StartState::~StartState()
 {
-
+	auto it = this->buttons.begin();
+	for (it = this->buttons.begin(); it != this->buttons.end(); ++it)
+	{
+		delete it->second;
+	}
 }

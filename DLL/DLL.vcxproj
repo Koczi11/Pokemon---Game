@@ -154,6 +154,7 @@ copy /Y "$(SolutionDir)x64\Debug\*lib" "C:\Users\kacpe\Desktop\Projekt_JIPP\SFML
     <ClInclude Include="PauseMenu.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="Pokemon.hpp" />
+    <ClInclude Include="PokemonSelector.hpp" />
     <ClInclude Include="SettingsState.hpp" />
     <ClInclude Include="StartState.hpp" />
     <ClInclude Include="State.hpp" />
@@ -181,6 +182,7 @@ copy /Y "$(SolutionDir)x64\Debug\*lib" "C:\Users\kacpe\Desktop\Projekt_JIPP\SFML
     <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Pokemon.cpp" />
+    <ClCompile Include="PokemonSelector.cpp" />
     <ClCompile Include="SettingsState.cpp" />
     <ClCompile Include="StartState.cpp" />
     <ClCompile Include="State.cpp" />

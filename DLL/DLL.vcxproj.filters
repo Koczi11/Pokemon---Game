@@ -68,20 +68,27 @@
     <ClInclude Include="API.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Klasa.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TextureSelector.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HitboxComponent.hpp" />
     <ClInclude Include="Pokemon.hpp">
       <Filter>Entities</Filter>
     </ClInclude>
-    <ClInclude Include="StartState.hpp" />
+    <ClInclude Include="StartState.hpp">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="HitboxComponent.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureSelector.hpp">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="PokemonSelector.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Klasa.cpp">
@@ -129,9 +136,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
-    <ClCompile Include="TextureSelector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="HitboxComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -140,6 +144,12 @@
     </ClCompile>
     <ClCompile Include="StartState.cpp">
       <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureSelector.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="PokemonSelector.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

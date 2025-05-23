@@ -1,6 +1,6 @@
 #include "GameState.hpp"
 
-GameState::GameState(StateData* state_data) : State(state_data)
+GameState::GameState(StateData* state_data, const std::string& pokemon_name) : State(state_data), selectedPokemon(pokemon_name)
 {
 	this->initView();
 	this->initKeybinds();
@@ -9,6 +9,8 @@ GameState::GameState(StateData* state_data) : State(state_data)
 	this->initPauseMenu();
 	this->initPlayers();
 	this->initTileMap();
+	this->initPokemonSelector();
+	this->initPokemonSprite();
 }
 
 void GameState::initView()
@@ -67,6 +69,40 @@ void GameState::initTileMap()
 {
 	this->tileMap = new TileMap(this->stateData->gridSize, 50, 50, "C:\\Users\\kacpe\\Desktop\\Projekt_JIPP\\proj\\Projekt_JIPP\\items\\kafelki.png");
 	this->tileMap->loadFromFile("C:\\Users\\kacpe\\Desktop\\Projekt_JIPP\\proj\\Projekt_JIPP\\items\\Map.txt");
+}
+
+void GameState::initPokemonSelector()
+{
+	this->pokemonSelector = new PokemonSelector(sf::Vector2f(5, 100), sf::Vector2f(96, 576), sf::Color(255, 255, 153, 200), sf::Color(85, 107, 47, 250));
+}
+
+void GameState::initPokemonSprite()
+{
+	std::string texturePath;
+
+	if (this->selectedPokemon == "bulbasaur")
+	{
+		texturePath = "C:\\Users\\kacpe\\Desktop\\Projekt_JIPP\\proj\\Projekt_JIPP\\items\\bulbasaur1.png";
+	}
+	else if (this->selectedPokemon == "charmander")
+	{
+		texturePath = "C:\\Users\\kacpe\\Desktop\\Projekt_JIPP\\proj\\Projekt_JIPP\\items\\charmander1.png";
+	}
+	else if (this->selectedPokemon == "squirtle")
+	{
+		texturePath = "C:\\Users\\kacpe\\Desktop\\Projekt_JIPP\\proj\\Projekt_JIPP\\items\\squirtle1.png";
+	}
+
+	if (!this->pokemonTexture.loadFromFile(texturePath))
+	{
+		std::cerr << "ERROR::GAMESTATE::COULD_NOT_LOAD_POKEMON_TEXTURE" << std::endl;
+	}
+
+	this->pokemonSprite.setTexture(this->pokemonTexture);
+
+	
+	this->pokemonSprite.setPosition(5, 0);
+	this->pokemonSprite.setScale(1.5f, 1.5f);
 }
 
 void GameState::updateView(const float& deltaTime)
@@ -145,7 +181,22 @@ void GameState::render(sf::RenderTarget* target)
 	this->tileMap->render(*target);
 
 	this->player->render(*target);
+
 	
+
+	if (this->pokemonSelector)
+	{
+		target->setView(this->window->getDefaultView());
+		this->pokemonSelector->render(*target);
+		
+		if (this->pokemonSprite.getTexture())
+		{
+			target->draw(this->pokemonSprite);
+		}
+
+		target->setView(this->view);
+	}
+
 	if (this->paused)
 	{
 		target->setView(this->window->getDefaultView());
