@@ -116,12 +116,24 @@ void GameState::updateFight(const float& deltaTime)
 		sf::FloatRect(1050.f, 1900.f, 550.f, 550.f)
 	};
 
+	bool currentlyInCombatArea = false;
+
 	for (const auto& area : combatAreas)
 	{
 		if (area.contains(this->player->getPosition()))
 		{
-			isInCombatArea = true;
+			currentlyInCombatArea = true;
 			break;
+		}
+	}
+
+	if (currentlyInCombatArea != isInCombatArea)
+	{
+		isInCombatArea = currentlyInCombatArea;
+
+		if (isInCombatArea)
+		{
+			fightCooldown.restart();
 		}
 	}
 
@@ -129,7 +141,7 @@ void GameState::updateFight(const float& deltaTime)
 	{
 		if ((std::rand() % 100) < 1)
 		{
-			this->states->push(new FightState(this->stateData));
+			this->states->push(new FightState(this->stateData, this->selectedPokemon));
 			fightCooldown.restart();
 
 			std::cout << "Entering FightState!" << std::endl;

@@ -9,8 +9,6 @@
 class EXPORT_API Player : public Entity
 {
 private:
-    sf::Sprite m_sprite;
-
 	void initVariables();
 	void initComponents();
 
@@ -21,7 +19,6 @@ public:
 	virtual ~Player();
 
 	void update(const float& deltaTime);
-
 	void render(sf::RenderTarget& target);
 };
 

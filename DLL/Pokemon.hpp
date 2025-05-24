@@ -9,10 +9,38 @@
 class EXPORT_API Pokemon : public Entity
 {
 private:
+	void initVariables();
+	void initComponents();
+
+	std::string name;
+	int maxHP;
+	int currentHP;
+	int attack;
+	int defense;
+	int speed;
+
+	std::vector<std::string> moves;
 
 public:
-	Pokemon(const std::string& name, const std::string& texturePath);
+	Pokemon(float x, float y, sf::Texture& texture_sheet, const std::string& name, int hp, int attack, int defense, int speed, const std::vector<std::string>& moves);
 	virtual ~Pokemon();
+
+	const std::string& getName() const;
+	int getCurrentHP() const;
+	int getMaxHP() const;
+	int getAttack() const;
+	int getDefense() const;
+	int getSpeed() const;
+	const std::vector<std::string>& getMoves() const;
+
+	bool isFainted() const;
+
+	void takeDamage(int damage);
+	int calculateDamage(const Pokemon& opponent, const std::string& move) const;
+	void heal();
+
+	void update(const float& deltaTime);
+	void render(sf::RenderTarget& target);
 };
 
 

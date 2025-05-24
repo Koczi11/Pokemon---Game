@@ -37,7 +37,7 @@ private:
 	sf::Texture pokemonTexture;
 
 	sf::Clock fightCooldown;
-	const float fightCooldownTime = 10.0f;
+	const float fightCooldownTime = 5.0f;
 	bool isInCombatArea = false;
 
 	const std::vector<sf::FloatRect> combatAreas;
