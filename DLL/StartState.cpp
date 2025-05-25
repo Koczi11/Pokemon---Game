@@ -85,17 +85,17 @@ void StartState::updateButtons()
 
 	if (this->buttons["BULBASAUR"]->isPressed())
 	{
-		this->states->push(new GameState(this->stateData, "bulbasaur"));
+		this->states->push(new GameState(this->stateData, "bulbasaur", "new"));
 	}
 
 	if (this->buttons["CHARMANDER"]->isPressed())
 	{
-		this->states->push(new GameState(this->stateData, "charmander"));
+		this->states->push(new GameState(this->stateData, "charmander", "new"));
 	}
 
 	if (this->buttons["SQUIRTLE"]->isPressed())
 	{
-		this->states->push(new GameState(this->stateData, "squirtle"));
+		this->states->push(new GameState(this->stateData, "squirtle", "new"));
 	}
 }
 

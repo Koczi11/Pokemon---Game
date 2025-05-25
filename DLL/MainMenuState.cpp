@@ -50,8 +50,8 @@ void MainMenuState::initButtons()
 		sf::Color(255, 255, 0, 100), sf::Color(255, 255, 0, 250), sf::Color(155, 155, 0, 50),
 		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
 
-	this->buttons["EDITOR_STATE"] = new Button(375, 500, 300, 80,
-		&this->font, "EDITOR", 60,
+	this->buttons["LOAD"] = new Button(375, 500, 300, 80,
+		&this->font, "LOAD GAME", 60,
 		sf::Color(255, 255, 0, 100), sf::Color(255, 255, 0, 250), sf::Color(155, 155, 0, 50),
 		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
 
@@ -98,9 +98,20 @@ void MainMenuState::updateButtons()
 		this->states->push(new SettingsState(this->stateData));
 	}
 
-	if (this->buttons["EDITOR_STATE"]->isPressed())
+	if (this->buttons["LOAD"]->isPressed())
 	{
-		this->states->push(new EditorState(this->stateData));
+		std::string savedPokemon;
+		int level, exp;
+		float x, y;
+
+		if (SaveSystem::loadGame(savedPokemon, level, exp, x, y))
+		{
+			this->states->push(new GameState(this->stateData, savedPokemon, "saved"));
+		}
+		else
+		{
+			std::cout << "Nie znaleziono zapisu gry!" << std::endl;
+		}
 	}
 
 	if (this->buttons["EXIT"]->isPressed())

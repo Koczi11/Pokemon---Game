@@ -11,7 +11,7 @@
 #include "PokemonSelector.hpp"
 #include "Pokemon.hpp"
 #include "FightState.hpp"
-
+#include "SaveSystem.hpp"
 class PauseMenu;
 class Player;
 class TileMap;
@@ -37,7 +37,7 @@ private:
 	sf::Texture pokemonTexture;
 
 	sf::Clock fightCooldown;
-	const float fightCooldownTime = 7.0f;
+	const float fightCooldownTime = 5.0f;
 	bool isInCombatArea = false;
 
 	const std::vector<sf::FloatRect> combatAreas;
@@ -45,6 +45,9 @@ private:
 	int playerPokemonLevel = 5;
 	int playerPokemonExp = 0;
 	std::string playerPokemonName;
+
+	void saveGame();
+	bool loadGame();
 
 	void initView();
 	void initKeybinds();
@@ -57,7 +60,7 @@ private:
 	void initPokemonSprite();
 
 public:
-	GameState(StateData* state_data, const std::string& pokemon_name);
+	GameState(StateData* state_data, const std::string& pokemon_name, const std::string& mode);
 	virtual ~GameState();
 
 	void updateFight(const float& deltaTime);

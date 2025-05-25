@@ -59,7 +59,7 @@ void Player::render(sf::RenderTarget& target)
 {
 	target.draw(this->sprite);
 
-	this->hitboxComponent->render(target);
+	//this->hitboxComponent->render(target);
 }
 
 Player::~Player()

@@ -1,7 +1,18 @@
 #include "GameState.hpp"
 
-GameState::GameState(StateData* state_data, const std::string& pokemon_name) : State(state_data), selectedPokemon(pokemon_name)
+GameState::GameState(StateData* state_data, const std::string& pokemon_name, const std::string& mode) : State(state_data), selectedPokemon(pokemon_name)
 {
+	if (mode == "new")
+	{
+		this->selectedPokemon = pokemon_name;
+		this->playerPokemonLevel = 5;
+		this->playerPokemonExp = 0;
+	}
+	else if (mode == "saved")
+	{
+		this->loadGame();
+	}
+
 	this->initView();
 	this->initKeybinds();
 	this->initFonts();
@@ -13,6 +24,35 @@ GameState::GameState(StateData* state_data, const std::string& pokemon_name) : S
 	this->initPokemonSprite();
 
 	std::srand(static_cast<unsigned>(std::time(nullptr)));
+}
+
+void GameState::saveGame()
+{
+	SaveSystem::saveGame(
+		this->playerPokemonName,
+		this->playerPokemonLevel,
+		this->playerPokemonExp,
+		this->player->getPosition().x,
+		this->player->getPosition().y
+	);
+}
+
+bool GameState::loadGame()
+{
+	std::string pokemonName;
+	int level, exp;
+	float x, y;
+
+	if (SaveSystem::loadGame(pokemonName, level, exp, x, y)) {
+		this->playerPokemonName = pokemonName;
+		this->playerPokemonLevel = level;
+		this->playerPokemonExp = exp;
+
+		this->initPlayers();
+
+		return true;
+	}
+	return false;
 }
 
 void GameState::initView()
@@ -60,11 +100,12 @@ void GameState::initPauseMenu()
 	this->pauseMenu = new PauseMenu(*this->window, this->font);
 
 	this->pauseMenu->addButton("QUIT", 700.f, "QUIT");
+	this->pauseMenu->addButton("SAVE", 500.f, "SAVE");
 }
 
 void GameState::initPlayers()
 {
-	this->player = new Player(190, 190, this->textures["PLAYER_SHEET"]);
+	this->player = new Player(1325, 1600, this->textures["PLAYER_SHEET"]);
 }
 
 void GameState::initTileMap()
@@ -216,6 +257,12 @@ void GameState::updatePauseMenuButtons()
 	{
 		this->states->push(new MainMenuState(this->stateData));
 	}
+
+	if (this->pauseMenu->isButtonPressed("SAVE") && this->getKeyTime())
+	{
+		this->saveGame();
+		std::cout << "SAVE DONE" << "\n";
+	}
 }
 
 void GameState::render(sf::RenderTarget* target)
@@ -250,11 +297,6 @@ void GameState::render(sf::RenderTarget* target)
 		target->setView(this->window->getDefaultView());
 		this->pauseMenu->render(this->window);
 	}
-
-	sf::Text levelText;
-	levelText.setString("Lv. " + std::to_string(playerPokemonLevel));
-	levelText.setPosition(100, 100);
-	window->draw(levelText);
 }
 
 GameState::~GameState()

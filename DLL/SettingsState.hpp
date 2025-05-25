@@ -5,6 +5,7 @@
 
 #include "State.hpp"
 #include "Button.hpp"
+#include "EditorState.hpp"
 
 class SettingsState : public State
 {

@@ -55,6 +55,11 @@ void SettingsState::initKeybinds()
 
 void SettingsState::initButtons()
 {
+	this->buttons["EDITOR_STATE"] = new Button(375, 740, 300, 80,
+		&this->font, "EDITOR", 60,
+		sf::Color(255, 255, 0, 100), sf::Color(255, 255, 0, 250), sf::Color(155, 155, 0, 50),
+		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
+
 	this->buttons["EXIT"] = new Button(375, 840, 300, 80,
 		&this->font, "BACK", 60,
 		sf::Color(255, 255, 0, 100), sf::Color(255, 255, 0, 250), sf::Color(155, 155, 0, 50),
@@ -86,6 +91,11 @@ void SettingsState::updateButtons()
 	if (this->buttons["EXIT"]->isPressed())
 	{
 		this->endState();
+	}
+
+	if (this->buttons["EDITOR_STATE"]->isPressed())
+	{
+		this->states->push(new EditorState(this->stateData));
 	}
 }
 

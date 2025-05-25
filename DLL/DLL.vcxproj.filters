@@ -92,6 +92,9 @@
     <ClInclude Include="FightState.hpp">
       <Filter>States</Filter>
     </ClInclude>
+    <ClInclude Include="SaveSystem.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Klasa.cpp">
@@ -156,6 +159,9 @@
     </ClCompile>
     <ClCompile Include="FightState.cpp">
       <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveSystem.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
