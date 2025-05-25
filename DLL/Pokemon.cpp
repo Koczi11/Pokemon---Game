@@ -1,7 +1,7 @@
 #include "Pokemon.hpp"
 
 
-Pokemon::Pokemon(float x, float y, sf::Texture& texture_sheet, const std::string& name, int hp, int attack, int defense, int speed, const std::vector<std::string>& moves) : name(name), maxHP(hp), currentHP(hp), attack(attack), defense(defense), speed(speed), moves(moves)
+Pokemon::Pokemon(float x, float y, sf::Texture& texture_sheet, const std::string& name, int level, int hp, int attack, int defense, int speed, const std::vector<std::string>& moves) : name(name), level(level), maxHP(hp), currentHP(hp), attack(attack), defense(defense), speed(speed), moves(moves), exp(0), expToNextLevel(100 * level)
 {
 	this->initVariables();
 	this->initComponents();
@@ -88,6 +88,45 @@ int Pokemon::calculateDamage(const Pokemon& opponent, const std::string& move) c
 void Pokemon::heal()
 {
 	currentHP = maxHP;
+}
+
+int Pokemon::getLevel() const
+{
+	return level;
+}
+
+int Pokemon::getExp() const
+{
+	return exp;
+}
+
+int Pokemon::getExpToNextLevel() const
+{
+	return expToNextLevel;
+}
+
+void Pokemon::gainExp(int amount)
+{
+	exp += amount;
+	while (exp >= expToNextLevel)
+	{
+		exp -= expToNextLevel;
+		levelUp();
+	}
+}
+
+void Pokemon::levelUp()
+{
+	level++;
+
+	maxHP += 10;
+	attack += 3;
+	defense += 3;
+	speed += 2;
+
+	expToNextLevel = 100 + (level * 50);
+
+	std::cout << name << " awansowal na poziom " << level << "!" << std::endl;
 }
 
 void Pokemon::update(const float& deltaTime)

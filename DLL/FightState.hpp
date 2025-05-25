@@ -31,6 +31,12 @@ private:
 	int selectedMove;
 	bool playerTurn;
 
+	sf::Text playerLevelText;
+	sf::Text enemyLevelText;
+
+	int& playerLevelRef;
+	int& playerExpRef;
+
 	void initVariables();
 	void initBackground();
 	void initFonts();
@@ -41,7 +47,7 @@ private:
 	void initGUI();
 
 public:
-	FightState(StateData* state_data, const std::string& pokemon_name);
+	FightState(StateData* state_data, const std::string& pokemon_name, int& playerLevel, int& playerExp);
 	virtual ~FightState();
 
 	void updateHpBars();

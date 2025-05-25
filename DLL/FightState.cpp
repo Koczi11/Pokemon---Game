@@ -1,6 +1,6 @@
 #include "FightState.hpp"
 
-FightState::FightState(StateData* state_data, const std::string& pokemon_name) : State(state_data), selectedPokemon(pokemon_name), selectedMove(0), playerTurn(true)
+FightState::FightState(StateData* state_data, const std::string& pokemon_name, int& playerLevel, int& playerExp) : State(state_data), selectedPokemon(pokemon_name), selectedMove(0), playerTurn(true), playerLevelRef(playerLevel), playerExpRef(playerExp)
 {
 	this->initVariables();
 	this->initBackground();
@@ -64,32 +64,50 @@ void FightState::initPokemons()
 {
 	if (this->selectedPokemon == "bulbasaur")
 	{
-		this->playerPokemon = new Pokemon(300, 570, this->textures["BULBASAUR_FIGHT"], "Bulbasaur", 120, 49, 49, 45, { "Vine Whip", "Tackle", "Growl", "Leech Seed" });
+		this->playerPokemon = new Pokemon(300, 570, this->textures["BULBASAUR_FIGHT"], "Bulbasaur", playerLevelRef, 
+			80 + (playerLevelRef - 1) * 10,
+			37 + (playerLevelRef - 1) * 3,
+			37 + (playerLevelRef - 1) * 3,
+			37 + (playerLevelRef - 1) * 2, { "Vine Whip", "Tackle", "Growl", "Leech Seed" });
 		dynamic_cast<Button*>(this->buttons["MOVE_1"])->text.setString("Vine Whip");
 		dynamic_cast<Button*>(this->buttons["MOVE_2"])->text.setString("Tackle");
 		dynamic_cast<Button*>(this->buttons["MOVE_3"])->text.setString("Growl");
 		dynamic_cast<Button*>(this->buttons["MOVE_4"])->text.setString("Leech Seed");
+
+		this->playerPokemon->gainExp(playerExpRef);
 	}
 	else if (this->selectedPokemon == "charmander")
 	{
-		this->playerPokemon = new Pokemon(300, 570, this->textures["CHARMANDER_FIGHT"], "Charmander", 100, 52, 43, 65, {"Ember", "Scratch", "Growl", "Smokescreen"});
+		this->playerPokemon = new Pokemon(300, 570, this->textures["CHARMANDER_FIGHT"], "Charmander", playerLevelRef, 
+			60 + (playerLevelRef - 1) * 10,
+			40 + (playerLevelRef - 1) * 3,
+			31 + (playerLevelRef - 1) * 3,
+			57 + (playerLevelRef - 1) * 2, {"Ember", "Scratch", "Growl", "Smokescreen"});
 		dynamic_cast<Button*>(this->buttons["MOVE_1"])->text.setString("Ember");
 		dynamic_cast<Button*>(this->buttons["MOVE_2"])->text.setString("Scratch");
 		dynamic_cast<Button*>(this->buttons["MOVE_3"])->text.setString("Growl");
 		dynamic_cast<Button*>(this->buttons["MOVE_4"])->text.setString("Smokescreen");
+
+		this->playerPokemon->gainExp(playerExpRef);
 	}
 	else if (this->selectedPokemon == "squirtle")
 	{
-		this->playerPokemon = new Pokemon(300, 570, this->textures["SQUIRTLE_FIGHT"], "Squirtle", 110, 48, 65, 43, {"Bubble", "Tackle", "Tail Whip", "Withdraw"});
+		this->playerPokemon = new Pokemon(300, 570, this->textures["SQUIRTLE_FIGHT"], "Squirtle", playerLevelRef, 
+			70 + (playerLevelRef - 1) * 10,
+			36 + (playerLevelRef - 1) * 3,
+			53 + (playerLevelRef - 1) * 3,
+			35 + (playerLevelRef - 1) * 2, {"Bubble", "Tackle", "Tail Whip", "Withdraw"});
 		dynamic_cast<Button*>(this->buttons["MOVE_1"])->text.setString("Bubble");
 		dynamic_cast<Button*>(this->buttons["MOVE_2"])->text.setString("Tackle");
 		dynamic_cast<Button*>(this->buttons["MOVE_3"])->text.setString("Tail Whip");
 		dynamic_cast<Button*>(this->buttons["MOVE_4"])->text.setString("Withdraw");
+
+		this->playerPokemon->gainExp(playerExpRef);
 	}
 
 
 
-	this->enemyPokemon = new Pokemon(1250, 280, this->textures["RATATA_FIGHT"], "Rattata", 80, 56, 35, 72, {"Tackle", "Quick Attack", "Tail Whip", "Bite"});
+	this->enemyPokemon = new Pokemon(1250, 280, this->textures["RATATA_FIGHT"], "Rattata", 5, 80, 56, 35, 72, {"Tackle", "Quick Attack", "Tail Whip", "Bite"});
 }
 
 void FightState::initKeybinds()
@@ -99,83 +117,89 @@ void FightState::initKeybinds()
 
 void FightState::initButtons()
 {
-	this->buttons["RUN"] = new Button(1375, 920, 300, 80,
+	this->buttons["RUN"] = new Button(1500, 920, 300, 80,
 		&this->font, "Run", 60,
-		sf::Color(70, 70, 70, 100), sf::Color(70, 70, 70, 250), sf::Color(70, 70, 70, 50),
+		sf::Color(70, 70, 70, 255), sf::Color(70, 70, 70, 150), sf::Color(70, 70, 70, 50),
 		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
 
-	this->buttons["MOVE_1"] = new Button(100, 200, 300, 80,
+	this->buttons["MOVE_1"] = new Button(70, 820, 300, 80, 
 		&this->font, "Tackle", 60,
-		sf::Color(70, 70, 70, 100), sf::Color(70, 70, 70, 250), sf::Color(70, 70, 70, 50),
+		sf::Color(255, 255, 255, 255), sf::Color(255, 255, 255, 150), sf::Color(255, 255, 255, 50),
 		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
 
-	this->buttons["MOVE_2"] = new Button(300, 300, 300, 80,
+	this->buttons["MOVE_2"] = new Button(550, 820, 300, 80,
 		&this->font, "Quick Attack", 60,
-		sf::Color(70, 70, 70, 100), sf::Color(70, 70, 70, 250), sf::Color(70, 70, 70, 50),
+		sf::Color(255, 255, 255, 255), sf::Color(255, 255, 255, 150), sf::Color(255, 255, 255, 50),
 		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
 
-	this->buttons["MOVE_3"] = new Button(500, 400, 300, 80,
+	this->buttons["MOVE_3"] = new Button(60, 910, 300, 80,
 		&this->font, "Growl", 60,
-		sf::Color(70, 70, 70, 100), sf::Color(70, 70, 70, 250), sf::Color(70, 70, 70, 50),
+		sf::Color(255, 255, 255, 255), sf::Color(255, 255, 255, 150), sf::Color(255, 255, 255, 50),
 		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
 
-	this->buttons["MOVE_4"] = new Button(700, 500, 300, 80,
+	this->buttons["MOVE_4"] = new Button(510, 920, 300, 80,
 		&this->font, "Tail Whip", 60,
-		sf::Color(70, 70, 70, 100), sf::Color(70, 70, 70, 250), sf::Color(70, 70, 70, 50),
+		sf::Color(255, 255, 255, 255), sf::Color(255, 255, 255, 150), sf::Color(255, 255, 255, 50),
 		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
 
 }
 
 void FightState::initGUI()
 {
-	this->playerHpBar.setSize(sf::Vector2f(200, 20));
+	this->playerHpBar.setSize(sf::Vector2f(400, 20));
 	this->playerHpBar.setFillColor(sf::Color::Green);
-	this->playerHpBar.setPosition(300, 500);
+	this->playerHpBar.setPosition(1150, 590);
 
-	this->enemyHpBar.setSize(sf::Vector2f(200, 20));
+	this->enemyHpBar.setSize(sf::Vector2f(400, 20));
 	this->enemyHpBar.setFillColor(sf::Color::Green);
-	this->enemyHpBar.setPosition(1300, 700);
+	this->enemyHpBar.setPosition(175, 190);
 
 	this->playerHpText.setFont(this->font);
-	this->playerHpText.setCharacterSize(20);
-	this->playerHpText.setPosition(300, 470);
-
-	this->playerHpText.setFont(this->font);
-	this->playerHpText.setCharacterSize(20);
-	this->playerHpText.setPosition(1250, 170);
+	this->playerHpText.setCharacterSize(35);
+	this->playerHpText.setPosition(1150, 540);
+	this->playerHpText.setFillColor(sf::Color::Black);
 
 	this->enemyHpText.setFont(this->font);
-	this->enemyHpText.setCharacterSize(20);
-	this->enemyHpText.setPosition(1250, 170);
-
-	for (int i = 0; i < 4; ++i)
-	{
-		this->movesText[i].setFont(this->font);
-		this->movesText[i].setCharacterSize(24);
-		this->movesText[i].setPosition(50, 700 + i * 40);
-
-		if (i < this->playerPokemon->getMoves().size())
-			this->movesText[i].setString(this->playerPokemon->getMoves()[i]);
-	}
+	this->enemyHpText.setCharacterSize(35);
+	this->enemyHpText.setPosition(175, 140);
+	this->enemyHpText.setFillColor(sf::Color::Black);
 
 	this->updateHpBars();
+
+	this->playerLevelText.setFont(this->font);
+	this->playerLevelText.setCharacterSize(35);
+	this->playerLevelText.setPosition(1460, 540);
+	this->playerLevelText.setFillColor(sf::Color::Black);
+
+	this->enemyLevelText.setFont(this->font);
+	this->enemyLevelText.setCharacterSize(35);
+	this->enemyLevelText.setPosition(380, 140);
+	this->enemyLevelText.setFillColor(sf::Color::Black);
 }
 
 void FightState::updateHpBars()
 {
 	float playerHpPercent = static_cast<float>(this->playerPokemon->getCurrentHP()) / this->playerPokemon->getMaxHP();
-	this->playerHpBar.setSize(sf::Vector2f(200 * playerHpPercent, 20));
+	this->playerHpBar.setSize(sf::Vector2f(400 * playerHpPercent, 20));
 
 	std::stringstream playerSs;
 	playerSs << this->playerPokemon->getName() << ": " << this->playerPokemon->getCurrentHP() << "/" << this->playerPokemon->getMaxHP();
 	this->playerHpText.setString(playerSs.str());
 
 	float enemyHpPercent = static_cast<float>(this->enemyPokemon->getCurrentHP()) / this->enemyPokemon->getMaxHP();
-	this->enemyHpBar.setSize(sf::Vector2f(200 * enemyHpPercent, 20));
+	this->enemyHpBar.setSize(sf::Vector2f(400 * enemyHpPercent, 20));
 
 	std::stringstream enemySs;
 	enemySs << this->enemyPokemon->getName() << ": " << this->enemyPokemon->getCurrentHP() << "/" << this->enemyPokemon->getMaxHP();
 	this->enemyHpText.setString(enemySs.str());
+
+	std::stringstream playerLevelSs;
+	playerLevelSs << "Lv. " << this->playerPokemon->getLevel();
+	this->playerLevelText.setString(playerLevelSs.str());
+
+	std::stringstream enemyLevelSs;
+	enemyLevelSs << "Lv. " << this->enemyPokemon->getLevel();
+	this->enemyLevelText.setString(enemyLevelSs.str());
 }
 
 void FightState::playerAttack(int moveIndex)
@@ -183,8 +207,16 @@ void FightState::playerAttack(int moveIndex)
 	if (moveIndex >= this->playerPokemon->getMoves().size()) return;
 
 	std::string move = this->playerPokemon->getMoves()[moveIndex];
-	int damage = this->playerPokemon->calculateDamage(*this->enemyPokemon, move);
-	this->enemyPokemon->takeDamage(damage);
+	if (moveIndex == 2)
+	{
+		int damage = 0;
+		this->enemyPokemon->takeDamage(damage);
+	}
+	else
+	{
+		int damage = this->playerPokemon->calculateDamage(*this->enemyPokemon, move);
+		this->enemyPokemon->takeDamage(damage);
+	}
 
 	this->updateHpBars();
 }
@@ -209,6 +241,14 @@ void FightState::checkBattleEnd()
 	}
 	else if (this->enemyPokemon->isFainted())
 	{
+		int expGain = this->enemyPokemon->getLevel() * 50;
+		this->playerPokemon->gainExp(expGain);
+
+		playerLevelRef = this->playerPokemon->getLevel();
+		playerExpRef = this->playerPokemon->getExp();
+
+		std::cout << this->playerPokemon->getName() << " zdobywa " << expGain << " punktow doswiadczenia" << std::endl;
+
 		this->endState();
 	}
 }
@@ -270,7 +310,7 @@ void FightState::handleEnemyTurn()
 {
 	if (!this->enemyPokemon->isFainted())
 	{
-		sf::sleep(sf::seconds(1.0f));
+		sf::sleep(sf::seconds(2.0f));
 		this->enemyAttack();
 		this->checkBattleEnd();
 	}
@@ -306,11 +346,14 @@ void FightState::render(sf::RenderTarget* target)
 	target->draw(this->enemyHpBar);
 	target->draw(this->playerHpText);
 	target->draw(this->enemyHpText);
+	target->draw(this->playerLevelText);
+	target->draw(this->enemyLevelText);
 
 	/*sf::Text mouseText;
 	mouseText.setPosition(this->mousePosView.x, this->mousePosView.y - 50);
 	mouseText.setFont(this->font);
 	mouseText.setCharacterSize(12);
+	mouseText.setFillColor(sf::Color::Black);
 	std::stringstream ss;
 	ss << this->mousePosView.x << " " << this->mousePosView.y;
 	mouseText.setString(ss.str());

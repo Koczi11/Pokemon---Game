@@ -21,8 +21,12 @@ private:
 
 	std::vector<std::string> moves;
 
+	int level;
+	int exp;
+	int expToNextLevel;
+
 public:
-	Pokemon(float x, float y, sf::Texture& texture_sheet, const std::string& name, int hp, int attack, int defense, int speed, const std::vector<std::string>& moves);
+	Pokemon(float x, float y, sf::Texture& texture_sheet, const std::string& name, int level, int hp, int attack, int defense, int speed, const std::vector<std::string>& moves);
 	virtual ~Pokemon();
 
 	const std::string& getName() const;
@@ -38,6 +42,12 @@ public:
 	void takeDamage(int damage);
 	int calculateDamage(const Pokemon& opponent, const std::string& move) const;
 	void heal();
+
+	int getLevel() const;
+	int getExp() const;
+	int getExpToNextLevel() const;
+	void gainExp(int amount);
+	void levelUp();
 
 	void update(const float& deltaTime);
 	void render(sf::RenderTarget& target);

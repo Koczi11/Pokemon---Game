@@ -80,6 +80,8 @@ void GameState::initPokemonSelector()
 
 void GameState::initPokemonSprite()
 {
+	this->playerPokemonName = this->selectedPokemon;
+
 	std::string texturePath;
 
 	if (this->selectedPokemon == "bulbasaur")
@@ -141,7 +143,7 @@ void GameState::updateFight(const float& deltaTime)
 	{
 		if ((std::rand() % 100) < 1)
 		{
-			this->states->push(new FightState(this->stateData, this->selectedPokemon));
+			this->states->push(new FightState(this->stateData, this->selectedPokemon, this->playerPokemonLevel, this->playerPokemonExp));
 			fightCooldown.restart();
 
 			std::cout << "Entering FightState!" << std::endl;
@@ -248,6 +250,11 @@ void GameState::render(sf::RenderTarget* target)
 		target->setView(this->window->getDefaultView());
 		this->pauseMenu->render(this->window);
 	}
+
+	sf::Text levelText;
+	levelText.setString("Lv. " + std::to_string(playerPokemonLevel));
+	levelText.setPosition(100, 100);
+	window->draw(levelText);
 }
 
 GameState::~GameState()
